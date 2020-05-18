@@ -1,11 +1,18 @@
 
+// express 패키지를 import함
 var express = require('express');
+// http 패키지를 import함
 var http = require('http');
+// path 패키지를 import함
 var path = require('path');
 
+// body-parser 패키지를 import함
 var bodyParser = require('body-parser');
+
+// serve-static 패키지를 import함
 var static = require('serve-static');
 
+// express객체인 app을 선언함 
 var app = express();
 
 app.set('port', process.env.PORT || 3000);
