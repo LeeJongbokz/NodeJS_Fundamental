@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>로그인</h1>
+    <br>
+        // 왜 action="주소"를 지정하는가?
+        // -> form 데이터를 서버로 보낼 때, 해당 데이터가 도착할 URL을 지정함
+        <form method="post" action="/process/login">
+            <table>
+                <tr>
+                    <td><label>아이디2</label></td>
+                    <td><input type="text" name="id"></td>
+                </tr>
+            </table>
+                <tr>
+                    <td><label>비밀번호2</label></td>
+                    <td><input type="password"></td>
+                </tr>
+            </table>
+        <input type="submit" value="전송" name="">
+        </form>
+</body>
+</html>
