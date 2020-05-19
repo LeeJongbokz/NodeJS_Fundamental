@@ -49,10 +49,13 @@ router.route('/process/login').post(function(req,res) {
     var paramPassword = req.body.password;
 
     if(req.session.user){
+        
+        // 이미 로그인된 상태 
         console.log('이미 로그인되어 상품 페이지로 이동합니다.');
         res.redirect('/public/product.html');
     }else{
-
+        
+        // user 세션 저장. 세션의 속성으로 user 객체를 넣어줌
         req.session.user = {
             id: paramId,
             name: '소녀시대',
@@ -60,12 +63,16 @@ router.route('/process/login').post(function(req,res) {
         }
     };
 
+    // user 세션을 저장한 후에는 클라이언트로 응답을 보냄
+    // 로그인이 성공했음을 알리기 위해 클라이언트로 보낸 응답 코드를 보면
+    // 가장 아래쪽에 상품 페이지로 이동할 수 있는 링크가 있음
     res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
     res.write('<h1>로그인 성공</h1>');
     res.write('<div><p>Param id: ' + paramId + '</p></div>');
     res.write('<div><p>Param password: ' + paramPassword + '</p></div>');
     res.write("<br><br><a href='/process/product'> 상품 페이지로 이동하기</a>");
     res.end();
+    }
 });
 
 router.route('/process/logout').get(function(req, res){
@@ -75,11 +82,13 @@ router.route('/process/logout').get(function(req, res){
     if(req.session.user){
         console.log('로그아웃합니다.');
 
+        // 로그아웃할 때는 session객체에 있는 destory() 메소드를 호출하여 세션을 제거함
         req.session.destroy(function(err){
             if(err){
                 throw err;
             }
             console.log('세션을 삭제하고 로그아웃되었습니다.');
+            // 세션을 없앤 후에는 redirect() 메소드로 /public/login2.html 페이지를 전송함
             res.redirect('/public/login2.html');
         });
 }
