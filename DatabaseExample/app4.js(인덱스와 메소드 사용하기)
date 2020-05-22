@@ -19,10 +19,8 @@ var MongoClient = require('mongodb').MongoClient;
 
 var database; 
 
-// 데이터베이스 스키마 객체를 위한 변수 선언
 var UserSchema;
 
-// 데이터베이스 모델 객체를 위한 변수 선언 
 var UserModel; 
 
 // 익스프레스 객체 생성 
@@ -68,7 +66,6 @@ function connectDB(){
         database = db.db('local'); 
     });
 
-    // 데이터베이스 연결
     mongoose.Promise = global.Promise;
     mongoose.connect(databaseUrl);
     database = mongoose.connection;
@@ -87,6 +84,7 @@ function connectDB(){
             updated_at : { type: Date, index: {unique: false}, 'default': Date.now},
         });
 
+        // 스키마에 static 메소드 추가
         UserSchema.static('findById', function(id, callback){
             return this.find({id: id}, callback);
         });
@@ -196,12 +194,9 @@ router.route('/process/listuser').post(function(req,res){
 
     console.log('/process/listuser 호출됨.');
 
-    // 데이터베이스 객체가 초기화된 경우, 모델 객체의 findAll 메소드 호출
     if(database){
-        // 1. 모든 사용자 검색
         UserModel.findAll(function(err, results){
 
-            // 오류가 발생했을 때 클라이언트로 오류 전송 
             if(err){
                 console.error('사용자 리스트 조회 중 오류 발생: ' + err.stack);
 
@@ -212,8 +207,7 @@ router.route('/process/listuser').post(function(req,res){
 
                 return; 
             }
-
-            // 결과 객체 있으면 리스트 전송
+            
             if(results){
                 console.dir(results);
 
@@ -247,10 +241,10 @@ router.route('/process/listuser').post(function(req,res){
 });
 
 
-
 var authUser = function(database, id, password, callback){
     console.log('authUser 호출됨.')
 
+   
     UserModel.findbyId(id, function(err,results){
         if(err){
             callback(err, null);
