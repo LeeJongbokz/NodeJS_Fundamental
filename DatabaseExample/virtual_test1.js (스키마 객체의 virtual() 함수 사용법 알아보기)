@@ -45,7 +45,7 @@ function createUserSchema() {
         created_at: {type:Date, index:{unique: false}, 'default': Date.now},
         updated_at: {type:Date, index:{unique: false}, 'default': Date.now}
     });
-
+     
      UserSchema.virtual('info').set(function(info){
          var splitted = info.split(' ');
          this.id = splitted[0];
@@ -62,17 +62,24 @@ function createUserSchema() {
 
 }
 
+// doTest()함수를 실행한다
 function doTest(){
 
+    // user 인스턴스를 UserModel로 선언한다 
     var user = new UserModel({"info": 'test01 소녀시대'});
 
+    // user 인스턴스의 save 메소드를 실행한다
     user.save(function(err){
+        // err가 발생한다면
+        // err를 throw 한다
         if(err){
             throw err;
         }
-
+        
+        // 사용자 데이터가 추가되었음을 나타내는 문장을 출력한다 
         console.log("사용자 데이터 추가함.");
-
+        
+        // findAll() 함수를 실행한다 
         findAll();
     });
 
@@ -81,13 +88,21 @@ function doTest(){
 
 }
 
+// findAll() 함수를 정의한다 
 function findAll(){
+
+    // UserModel 객체에 대해 find()함수를 실행한다 
     UserModel.find({}, function(err, results){
+        // err가 발생하면
+        // err를 throw한다. 
         if(err){
             throw err;
         }
-
+        
+        // results가 존재하면 
         if(results){
+            // 조회된 user 문서의 id와 name을 출력한다 
+            // 이 경우는 results[0]._doc.id와 results[0]._doc.name을 출력한다 
             console.log('조회된 user 문서 객체 #0 -> id: %s, name: %s',
                         results[0]._doc.id, results[0]._doc.name);
         }
